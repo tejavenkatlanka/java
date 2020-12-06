@@ -1,8 +1,6 @@
 package org.github.grpc;
 
 
-import org.github.grpc.examples.helloworld.HelloReply;
-import org.github.grpc.examples.helloworld.HelloRequest;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -10,14 +8,26 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import org.github.grpc.examples.helloworld.GreeterGrpc;
+import org.github.grpc.examples.helloworld.HelloReply;
+import org.github.grpc.examples.helloworld.HelloRequest;
 
 /**
  * Server that manages startup/shutdown of a {@code Greeter} server.
  */
 public class HelloWorldServer {
+
   private static final Logger logger = Logger.getLogger(HelloWorldServer.class.getName());
 
   private Server server;
+
+  /**
+   * Main launches the server from the command line.
+   */
+  public static void main(String[] args) throws IOException, InterruptedException {
+    final HelloWorldServer server = new HelloWorldServer();
+    server.start();
+    server.blockUntilShutdown();
+  }
 
   private void start() throws IOException {
     /* The port on which the server should run */
@@ -57,22 +67,13 @@ public class HelloWorldServer {
     }
   }
 
-  /**
-   * Main launches the server from the command line.
-   */
-  public static void main(String[] args) throws IOException, InterruptedException {
-    final HelloWorldServer server = new HelloWorldServer();
-    server.start();
-    server.blockUntilShutdown();
-  }
-
   static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
 
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
-      System.out.println("client : "+req);
+      logger.info("client : " + req);
       HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
-      System.out.println("response : "+reply);
+      logger.info("response : " + reply);
       responseObserver.onNext(reply);
       responseObserver.onCompleted();
     }
