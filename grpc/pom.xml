@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>grpc</artifactId>
+
+  <build>
+    <extensions>
+      <extension>
+        <artifactId>os-maven-plugin</artifactId>
+        <groupId>kr.motd.maven</groupId>
+        <version>1.6.2</version>
+      </extension>
+    </extensions>
+    <plugins>
+      <plugin>
+        <artifactId>protobuf-maven-plugin</artifactId>
+        <configuration>
+          <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.34.0:exe:${os.detected.classifier}
+          </pluginArtifact>
+          <pluginId>grpc-java</pluginId>
+          <protocArtifact>com.google.protobuf:protoc:3.12.0:exe:${os.detected.classifier}
+          </protocArtifact>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>compile-custom</goal>
+            </goals>
+          </execution>
+        </executions>
+        <groupId>org.xolstice.maven.plugins</groupId>
+        <version>0.6.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>7</source>
+          <target>7</target>
+        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <artifactId>grpc-netty-shaded</artifactId>
+      <groupId>io.grpc</groupId>
+      <version>1.34.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>grpc-protobuf</artifactId>
+      <groupId>io.grpc</groupId>
+      <version>1.34.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>grpc-stub</artifactId>
+      <groupId>io.grpc</groupId>
+      <version>1.34.0</version>
+    </dependency>
+    <dependency> <!-- necessary for Java 9+ -->
+      <artifactId>annotations-api</artifactId>
+      <groupId>org.apache.tomcat</groupId>
+      <scope>provided</scope>
+      <version>6.0.53</version>
+    </dependency>
+
+  </dependencies>
+  <groupId>org.github.grpc</groupId>
+
+  <modelVersion>4.0.0</modelVersion>
+  <version>1.0-SNAPSHOT</version>
+
+</project>
